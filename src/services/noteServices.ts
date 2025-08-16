@@ -29,5 +29,18 @@ export const fetchNotes = async (
   return response.data;
 };
 
-// createNote: має виконувати запит для створення нової нотатки на сервері. Приймає вміст нової нотатки та повертає створену нотатку у відповіді;
-// deleteNote: має виконувати запит для видалення нотатки за заданим ідентифікатором. Приймає ID нотатки та повертає інформацію про видалену нотатку у відповіді.
+export const createNote = async (
+  noteData: Pick<Note, "title" | "content" | "tag">
+): Promise<Note> => {
+  const response = await axios.post<Note>("/notes", noteData, {
+    headers: { Authorization: `Bearer ${myToken}` },
+  });
+  return response.data;
+};
+
+export const deleteNote = async (noteId: string): Promise<Note> => {
+  const res = await axios.delete<Note>(`/notes/${noteId}`, {
+    headers: { Authorization: `Bearer ${myToken}` },
+  });
+  return res.data;
+};
